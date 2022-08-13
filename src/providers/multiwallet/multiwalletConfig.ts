@@ -59,7 +59,7 @@ export const getMultiwalletConfig = (network: RenNetwork, reinit = false) => {
               connector: new EthereumMEWConnectConnector({
                 debug: env.DEV,
                 rpc: {
-                  42: `wss://kovan.infura.io/ws/v3/${env.INFURA_ID}`,
+                  42: `wss://kovan.infura.io/ws/v3/3de42e55181e44d1a7214c98e4075abf`,
                   1: `wss://eth-mainnet.g.alchemy.com/v2/${env.ALCHEMY_ID}`,
                 },
                 chainId: network === RenNetwork.Mainnet ? 1 : 42,
