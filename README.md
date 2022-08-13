@@ -1,4 +1,4 @@
-# `ren bridge v3`
+# `ren bridge v3 w/o Sanctions or Compliance address screening BS`
 
 An easy way to bridge cross-chain assets between blockchains.
 
