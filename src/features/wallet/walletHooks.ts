@@ -4,7 +4,6 @@ import { useMultiwallet } from "@renproject/multiwallet-ui";
 import { ContractChain, RenNetwork } from "@renproject/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelable } from "cancelable-promise";
 import { getRenAssetName } from "../../utils/assetsConfig";
 import { env } from "../../constants/environmentVariables";
 import { Wallet } from "../../utils/walletsConfig";
@@ -18,8 +17,6 @@ import {
   $wallet,
   setChain,
   setPickerOpened,
-  setToAddressSanctioned,
-  setFromAddressSanctioned,
 } from "./walletSlice";
 import { WalletStatus } from "./walletUtils";
 
@@ -274,9 +271,9 @@ export const useEns = (address: string | undefined) => {
     async function resolveENS() {
       if (address && ethers.utils.isAddress(address)) {
         let provider;
-        if (env.INFURA_ID) {
+        if (env.ALCHEMY_ID) {
           provider = new ethers.providers.StaticJsonRpcProvider(
-            `https://mainnet.infura.io/v3/${env.INFURA_ID}`
+            `https://eth-mainnet.g.alchemy.com/v2/${env.ALCHEMY_ID}`
           );
         } else {
           provider = ethers.getDefaultProvider(env.NETWORK);
@@ -291,82 +288,4 @@ export const useEns = (address: string | undefined) => {
   }, [address]);
 
   return { ensName };
-};
-
-export type SanctionData = Array<{ address: string; isSanctioned: boolean }>;
-const addressSanctionApiUrl = `https://api.trmlabs.com/public/v1/sanctions/screening`;
-
-async function fetchAddressData(address: string) {
-  const data = [
-    {
-      address,
-    },
-  ];
-  // Default options are marked with *
-  return fetch(addressSanctionApiUrl, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data), // body data type must match "Content-Type" header
-  }).then((response) => {
-    const data = response.json();
-    return data as unknown as SanctionData;
-  });
-}
-
-export const useAddressScreening = (address: string, start: boolean) => {
-  const [sanctioned, setSanctioned] = useState<boolean | null>(null);
-  useEffect(() => {
-    setSanctioned(null);
-    if (!start) {
-      return;
-    }
-    const promise = fetchAddressData(address).then((data) => {
-      // console.log("sanction", data);
-      const addressData = data[0];
-      setSanctioned(addressData.isSanctioned);
-    });
-    const cancellable = cancelable(promise);
-    return () => {
-      cancellable.cancel();
-    };
-  }, [address, start]);
-
-  return { sanctioned };
-};
-
-type UseSyncScreeningProps = {
-  fromAddress: string;
-  fromStart?: boolean;
-  toAddress: string;
-  toStart?: boolean;
-};
-export const useSyncScreening = ({
-  fromAddress,
-  fromStart = true,
-  toAddress,
-  toStart = true,
-}: UseSyncScreeningProps) => {
-  const dispatch = useDispatch();
-  const { sanctioned: fromSanctioned } = useAddressScreening(
-    fromAddress,
-    fromStart
-  );
-  const { sanctioned: toSanctioned } = useAddressScreening(toAddress, toStart);
-
-  useEffect(() => {
-    dispatch(setFromAddressSanctioned(fromSanctioned));
-    dispatch(setToAddressSanctioned(toSanctioned));
-    return () => {
-      dispatch(setFromAddressSanctioned(null));
-      dispatch(setToAddressSanctioned(null));
-    };
-  }, [dispatch, fromSanctioned, toSanctioned]);
 };

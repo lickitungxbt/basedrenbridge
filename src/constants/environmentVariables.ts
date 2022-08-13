@@ -6,8 +6,8 @@ const NETWORK =
     process.env.REACT_APP_NETWORK) as unknown as RenNetwork) ||
   RenNetwork.Testnet;
 
-const INFURA_ID =
-  process.env.REACT_APP_INFURA_ID || process.env.REACT_APP_INFURA_KEY || "";
+const ALCHEMY_ID =
+  process.env.REACT_APP_ALCHEMY_ID || process.env.REACT_APP_ALCHEMY_KEY || "";
 const DEV = Boolean(process.env.NODE_ENV === "development");
 
 const MEWCONNECT_ENABLED = Boolean(process.env.REACT_APP_MEWCONNECT_ENABLED);
@@ -27,7 +27,7 @@ const ENABLED_ASSETS = process.env.REACT_APP_ENABLED_ASSETS?.split(",") || [
 export const env = {
   DEV,
   NETWORK,
-  INFURA_ID,
+  ALCHEMY_ID,
   ENABLED_ASSETS,
   ENABLED_EXTRA_WALLETS,
   BSC_MM_ENABLED,

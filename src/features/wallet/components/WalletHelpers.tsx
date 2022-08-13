@@ -58,11 +58,6 @@ import { WarningDialog } from "../../transactions/components/TransactionsHelpers
 import { setWalletButtonHoisted } from "../../ui/uiSlice";
 import { useEns, useSwitchChainHelpers, useWallet } from "../walletHooks";
 // import { useSelectedChainWallet, useSwitchChainHelpers } from "../walletHooks";
-import {
-  $screening,
-  setPickerOpened,
-  setScreeningWarningOpened,
-} from "../walletSlice";
 import { WalletStatus } from "../walletUtils";
 
 export const useWalletPickerStyles = makeStyles((theme) => ({
@@ -864,50 +859,6 @@ export const ConnectWalletPaperSection: FunctionComponent<
         {t("wallet.connect")}
       </ActionButton>
     </>
-  );
-};
-
-export const AddressScreeningWarningDialog: FunctionComponent = () => {
-  const dispatch = useDispatch();
-  const { dialogOpened, fromAddressSanctioned, toAddressSanctioned } =
-    useSelector($screening);
-  const handleClose = useCallback(() => {
-    dispatch(setScreeningWarningOpened(false));
-  }, [dispatch]);
-
-  let message;
-  if (fromAddressSanctioned && toAddressSanctioned) {
-    message = "Sender and recipient address are sanctioned";
-  } else if (fromAddressSanctioned) {
-    message = "Sender address is sanctioned";
-  } else if (toAddressSanctioned) {
-    message = "Recipient address is sanctioned";
-  }
-
-  const sanctioned = fromAddressSanctioned || toAddressSanctioned;
-  useEffect(() => {
-    if (sanctioned) {
-      dispatch(setScreeningWarningOpened(true));
-    } else {
-      dispatch(setScreeningWarningOpened(false));
-    }
-  }, [dispatch, sanctioned]);
-
-  return (
-    <WarningDialog
-      open={dialogOpened}
-      onClose={handleClose}
-      reason="Sanctioned Address"
-      mainActionText="Ok. Let me try..."
-      onMainAction={handleClose}
-    >
-      <Typography variant="h6" paragraph>
-        {message}
-      </Typography>
-      <Typography variant="body2">
-        Your transaction will fail during further processing.
-      </Typography>
-    </WarningDialog>
   );
 };
 

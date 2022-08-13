@@ -44,7 +44,6 @@ import { useCurrentNetworkChains } from "../../network/networkHooks";
 import { TransactionSafetyWarning } from "../../transactions/components/TransactionsHistoryHelpers";
 import {
   useCurrentChainWallet,
-  useSyncScreening,
   useWallet,
 } from "../../wallet/walletHooks";
 import { setChain, setPickerOpened } from "../../wallet/walletSlice";
@@ -339,12 +338,6 @@ export const GatewayInitialStep: FunctionComponent<GatewayStepProps> = ({
     errorTooltip = "";
   }
 
-  useSyncScreening({
-    fromAddress: account,
-    fromStart: Boolean(account),
-    toAddress,
-    toStart: isAddressValid,
-  });
   // console.log(
   //   balance,
   //   amount,

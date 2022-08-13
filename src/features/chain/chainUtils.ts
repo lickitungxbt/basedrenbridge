@@ -79,10 +79,10 @@ export const getEthereumBaseChain = <EVM extends EthereumBaseChain>(
   // if (config.config.chainId === "0x13881") {
   //   rpcUrl = config.config.rpcUrls[1];
   // }
-  if (env.INFURA_ID) {
+  if (env.ALCHEMY_ID) {
     for (const url of config.config.rpcUrls) {
-      if (url.match(/^https:\/\/.*\$\{INFURA_API_KEY\}/)) {
-        rpcUrl = url.replace(/\$\{INFURA_API_KEY\}/, env.INFURA_ID);
+      if (url.match(/^https:\/\/.*\$\{ALCHEMY_API_KEY\}/)) {
+        rpcUrl = url.replace(/\$\{ALCHEMY_API_KEY\}/, env.ALCHEMY_ID);
         break;
       }
     }

@@ -60,7 +60,7 @@ export const getMultiwalletConfig = (network: RenNetwork, reinit = false) => {
                 debug: env.DEV,
                 rpc: {
                   42: `wss://kovan.infura.io/ws/v3/${env.INFURA_ID}`,
-                  1: `wss://mainnet.infura.io/ws/v3/${env.INFURA_ID}`,
+                  1: `wss://eth-mainnet.g.alchemy.com/v2/${env.ALCHEMY_ID}`,
                 },
                 chainId: network === RenNetwork.Mainnet ? 1 : 42,
               }),
@@ -192,7 +192,7 @@ export const getMultiwalletConfig = (network: RenNetwork, reinit = false) => {
             providerURL: (window as any).solana || "https://www.phantom.app",
             clusterURL:
               network === RenNetwork.Mainnet
-                ? "https://ren.rpcpool.com/"
+                ? "https://solana-mainnet.g.alchemy.com/v2/JHNafGrDYkt3g5olgbTvjq-xJezBQoQZ"
                 : undefined,
             network,
           }),
@@ -204,7 +204,7 @@ export const getMultiwalletConfig = (network: RenNetwork, reinit = false) => {
             providerURL: "https://www.sollet.io",
             clusterURL:
               network === RenNetwork.Mainnet
-                ? "https://ren.rpcpool.com/"
+                ? "https://solana-mainnet.g.alchemy.com/v2/JHNafGrDYkt3g5olgbTvjq-xJezBQoQZ"
                 : undefined,
             network,
           }),
