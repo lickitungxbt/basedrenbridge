@@ -57,6 +57,7 @@ import { getWalletConfig, Wallet } from "../../../utils/walletsConfig";
 import { WarningDialog } from "../../transactions/components/TransactionsHelpers";
 import { setWalletButtonHoisted } from "../../ui/uiSlice";
 import { useEns, useSwitchChainHelpers, useWallet } from "../walletHooks";
+import { setPickerOpened } from "../walletSlice";
 // import { useSelectedChainWallet, useSwitchChainHelpers } from "../walletHooks";
 import { WalletStatus } from "../walletUtils";
 
