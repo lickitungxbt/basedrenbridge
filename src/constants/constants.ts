@@ -23,7 +23,7 @@ export const links = {
 
 export const prodDomains = [
   "renbridge.codeisspeech.xyz",
-  "basedrenbridge.vercel.app",
+  "basedrenbridge.pages.dev",
   "bridge.renproject.io",
 ];
 
